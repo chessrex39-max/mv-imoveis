@@ -18,7 +18,7 @@ export function Hero() {
   const [videoFailed, setVideoFailed] = useState(false);
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-black pt-20">
+    <section className="relative flex min-h-[78svh] items-center overflow-hidden bg-black">
       <div className="absolute inset-0">
         {!videoFailed && (
           <motion.video
@@ -39,8 +39,8 @@ export function Hero() {
         {videoFailed && (
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-charcoal-soft),_var(--color-black)_65%)]" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
       </div>
 
       <div className="container-page relative z-10 py-24">
@@ -70,14 +70,14 @@ export function Hero() {
 
         <div className="mt-4 max-w-2xl overflow-hidden py-[0.1em]">
           <motion.h1
-            className="font-display text-[9vw] leading-[1.05] text-cream drop-shadow-[0_2px_24px_rgba(0,0,0,0.45)] sm:text-4xl md:text-5xl"
+            className="font-display text-[9vw] font-semibold leading-[1.05] text-cream drop-shadow-[0_2px_24px_rgba(0,0,0,0.45)] sm:text-4xl md:text-5xl"
             initial={{ y: "115%" }}
             animate={{ y: "0%" }}
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.25 }}
           >
             Realizando sonhos,
             <br />
-            <span className="italic text-gold">construindo histórias.</span>
+            <span className="text-gold">construindo histórias.</span>
           </motion.h1>
         </div>
 
@@ -121,19 +121,6 @@ export function Hero() {
 
       </div>
 
-      <motion.div
-        className="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.6 }}
-      >
-        <span className="eyebrow !text-cream-soft/70">Role para ver imóveis</span>
-        <motion.span
-          className="h-8 w-px bg-gradient-to-b from-gold to-transparent"
-          animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.div>
     </section>
   );
 }

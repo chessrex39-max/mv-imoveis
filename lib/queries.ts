@@ -1,5 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import type { City, Neighborhood, Property } from "@/lib/types";
+import type {
+  City,
+  Neighborhood,
+  Property,
+  PropertyTransaction,
+} from "@/lib/types";
 
 const PROPERTY_SELECT =
   "*, city:cities(*), neighborhood:neighborhoods(*), photos:property_photos(*)";
@@ -37,6 +42,7 @@ export type PropertyFilters = {
   cityId?: string;
   neighborhoodId?: string;
   type?: string;
+  transactionType?: PropertyTransaction;
   includeSold?: boolean;
 };
 
@@ -62,6 +68,9 @@ export async function getProperties(
   if (filters.type) {
     query = query.eq("type", filters.type);
   }
+  if (filters.transactionType) {
+    query = query.eq("transaction_type", filters.transactionType);
+  }
   if (filters.q) {
     query = query.or(
       `title.ilike.%${filters.q}%,code.ilike.%${filters.q}%,description.ilike.%${filters.q}%`
@@ -69,7 +78,24 @@ export async function getProperties(
   }
 
   const { data, error } = await query;
-  if (error) throw error;
+  if (error) {
+    const missingTransactionColumn =
+      Boolean(filters.transactionType) &&
+      (error.code === "42703" || error.code === "PGRST204");
+
+    if (missingTransactionColumn) {
+      const legacyProperties = await getProperties({
+        ...filters,
+        transactionType: undefined,
+      });
+
+      return filters.transactionType === "venda"
+        ? legacyProperties.filter((property) => property.transaction_type !== "aluguel")
+        : legacyProperties.filter((property) => property.transaction_type === "aluguel");
+    }
+
+    throw error;
+  }
   return (data ?? []).map((p) => sortPhotos(p as Property));
 }
 

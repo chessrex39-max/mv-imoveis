@@ -16,6 +16,7 @@ type SearchParams = Promise<{
   cidade?: string;
   bairro?: string;
   tipo?: string;
+  negocio?: "venda" | "aluguel";
   vendidos?: string;
 }>;
 
@@ -34,25 +35,38 @@ export default async function ImoveisPage({
       cityId: params.cidade,
       neighborhoodId: params.bairro,
       type: params.tipo,
+      transactionType: params.negocio === "aluguel" ? "aluguel" : "venda",
       includeSold: params.vendidos === "1",
     }),
   ]);
 
-  return (
-    <div className="container-page py-32">
-      <Reveal>
-        <span className="eyebrow">Catálogo</span>
-        <h1 className="font-display mt-2 text-4xl text-cream sm:text-5xl">
-          Imóveis disponíveis
-        </h1>
-      </Reveal>
+  const isRental = params.negocio === "aluguel";
 
-      <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[280px_1fr]">
-        <Reveal as="div" delay={0.1} className="lg:sticky lg:top-28 lg:self-start">
-          <aside>
+  return (
+    <div className="min-h-screen bg-surface">
+      <section className="bg-black pb-10 pt-28 text-white sm:pb-12">
+        <div className="container-page">
+          <Reveal>
+            <span className="eyebrow">Catálogo MV</span>
+            <h1 className="font-display mt-2 text-3xl font-semibold text-white sm:text-4xl">
+              {isRental ? "Imóveis para alugar" : "Imóveis para comprar"}
+            </h1>
+          </Reveal>
+          <Reveal as="div" delay={0.1} className="mt-8">
             <PropertyFilters cities={cities} neighborhoods={neighborhoods} />
-          </aside>
-        </Reveal>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="container-page py-14 sm:py-16">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="eyebrow">Resultados</span>
+            <h2 className="font-display mt-2 text-2xl font-semibold text-ink sm:text-3xl">
+              {properties.length} {properties.length === 1 ? "imóvel encontrado" : "imóveis encontrados"}
+            </h2>
+          </div>
+        </div>
 
         <div>
           {properties.length > 0 ? (
@@ -72,7 +86,7 @@ export default async function ImoveisPage({
             </Reveal>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

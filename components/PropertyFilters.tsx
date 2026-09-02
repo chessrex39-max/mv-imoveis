@@ -19,6 +19,8 @@ export function PropertyFilters({
   const cityId = searchParams.get("cidade") ?? "";
   const neighborhoodId = searchParams.get("bairro") ?? "";
   const type = searchParams.get("tipo") ?? "";
+  const transactionType =
+    searchParams.get("negocio") === "aluguel" ? "aluguel" : "venda";
   const includeSold = searchParams.get("vendidos") === "1";
 
   const filteredNeighborhoods = cityId
@@ -39,28 +41,49 @@ export function PropertyFilters({
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-(--color-line) bg-charcoal p-5">
-      <form onSubmit={handleSearchSubmit} className="flex gap-2">
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-wrap gap-2" aria-label="Finalidade do imóvel">
+        <button
+          type="button"
+          onClick={() => updateParam("negocio", "venda")}
+          aria-pressed={transactionType === "venda"}
+          className={`focus-ring rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+            transactionType === "venda"
+              ? "bg-gold text-black"
+              : "bg-white/10 text-white hover:bg-white/15"
+          }`}
+        >
+          Comprar
+        </button>
+        <button
+          type="button"
+          onClick={() => updateParam("negocio", "aluguel")}
+          aria-pressed={transactionType === "aluguel"}
+          className={`focus-ring rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+            transactionType === "aluguel"
+              ? "bg-gold text-black"
+              : "bg-white/10 text-white hover:bg-white/15"
+          }`}
+        >
+          Alugar
+        </button>
+      </div>
+
+      <form
+        onSubmit={handleSearchSubmit}
+        className="grid gap-3 lg:grid-cols-[1.6fr_1fr_1fr_1fr_auto]"
+      >
         <input
           type="text"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Buscar por título ou código"
-          className="focus-ring w-full rounded-lg border border-(--color-line) bg-black/40 px-3 py-2 text-sm text-cream placeholder:text-cream-soft/50"
+          className="focus-ring w-full rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-soft/60"
         />
-        <button
-          type="submit"
-          className="focus-ring shrink-0 rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-black"
-        >
-          Buscar
-        </button>
-      </form>
-
-      <div className="grid grid-cols-1 gap-3">
         <select
           value={cityId}
           onChange={(e) => updateParam("cidade", e.target.value)}
-          className="focus-ring rounded-lg border border-(--color-line) bg-black/40 px-3 py-2 text-sm text-cream-soft"
+          className="focus-ring rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink"
         >
           <option value="">Todas as cidades</option>
           {cities.map((c) => (
@@ -73,7 +96,7 @@ export function PropertyFilters({
         <select
           value={neighborhoodId}
           onChange={(e) => updateParam("bairro", e.target.value)}
-          className="focus-ring rounded-lg border border-(--color-line) bg-black/40 px-3 py-2 text-sm text-cream-soft"
+          className="focus-ring rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink"
         >
           <option value="">Todos os bairros</option>
           {filteredNeighborhoods.map((n) => (
@@ -86,7 +109,7 @@ export function PropertyFilters({
         <select
           value={type}
           onChange={(e) => updateParam("tipo", e.target.value)}
-          className="focus-ring rounded-lg border border-(--color-line) bg-black/40 px-3 py-2 text-sm text-cream-soft"
+          className="focus-ring rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink"
         >
           <option value="">Todos os tipos</option>
           {Object.entries(PROPERTY_TYPE_LABEL).map(([value, label]) => (
@@ -95,9 +118,15 @@ export function PropertyFilters({
             </option>
           ))}
         </select>
-      </div>
+        <button
+          type="submit"
+          className="focus-ring shrink-0 rounded-xl bg-gold px-6 py-3 text-sm font-bold text-black transition-colors hover:bg-gold-soft"
+        >
+          Buscar
+        </button>
+      </form>
 
-      <label className="flex items-center gap-2 text-sm text-cream-soft">
+      <label className="flex items-center gap-2 text-sm text-white/75">
         <input
           type="checkbox"
           checked={includeSold}

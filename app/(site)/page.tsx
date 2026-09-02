@@ -11,10 +11,17 @@ export default async function HomePage() {
     getCities(),
     getFeaturedProperties(),
   ]);
+  const heroProperty = featured.find((property) => property.photos?.length);
+  const heroPhoto =
+    heroProperty?.photos?.find((photo) => photo.is_cover) ??
+    heroProperty?.photos?.[0];
 
   return (
     <>
-      <PropertySearchSection cities={cities} />
+      <PropertySearchSection
+        cities={cities}
+        backgroundImage={heroPhoto?.url}
+      />
       <Hero />
       <FeaturedProperties properties={featured} />
       <ServicesCards />

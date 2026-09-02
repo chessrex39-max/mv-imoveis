@@ -60,6 +60,7 @@ const propertySchema = z.object({
   description: z.string().trim().default(""),
   type: z.enum(["apartamento", "casa", "terreno", "comercial", "outro"]),
   status: z.enum(["disponivel", "vendido"]),
+  transaction_type: z.enum(["venda", "aluguel"]),
   city_id: z.string().uuid("Selecione uma cidade."),
   neighborhood_id: z.string().uuid("Selecione um bairro."),
   address: z.string().trim().optional(),
@@ -86,6 +87,15 @@ function parsePropertyForm(formData: FormData) {
   });
 }
 
+function isMissingTransactionColumn(error: { code?: string; message?: string } | null) {
+  return Boolean(
+    error &&
+      (error.code === "42703" ||
+        error.code === "PGRST204" ||
+        error.message?.includes("transaction_type"))
+  );
+}
+
 export async function createProperty(
   _prevState: ActionState,
   formData: FormData
@@ -105,16 +115,36 @@ export async function createProperty(
 
   const slug = `${makeUniqueSlug(rest.title, rest.code)}-${Date.now().toString(36)}`;
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("properties")
     .insert({ ...rest, features: featuresArray, slug })
     .select("id")
     .single();
 
+  if (isMissingTransactionColumn(error) && rest.transaction_type === "venda") {
+    const { transaction_type: _transactionType, ...legacyRest } = rest;
+    void _transactionType;
+    const retry = await supabase
+      .from("properties")
+      .insert({ ...legacyRest, features: featuresArray, slug })
+      .select("id")
+      .single();
+    data = retry.data;
+    error = retry.error;
+  }
+
   if (error) {
     return {
-      error: error.code === "23505" ? "Já existe um imóvel com esse código." : "Erro ao salvar o imóvel.",
+      error: isMissingTransactionColumn(error)
+        ? "Atualize o banco de dados antes de cadastrar um imóvel para aluguel."
+        : error.code === "23505"
+          ? "Já existe um imóvel com esse código."
+          : "Erro ao salvar o imóvel.",
     };
+  }
+
+  if (!data) {
+    return { error: "Erro ao salvar o imóvel." };
   }
 
   revalidatePath("/admin/imoveis");
@@ -140,14 +170,28 @@ export async function updateProperty(
     .map((f) => f.trim())
     .filter(Boolean);
 
-  const { error } = await supabase
+  let { error } = await supabase
     .from("properties")
     .update({ ...rest, features: featuresArray })
     .eq("id", propertyId);
 
+  if (isMissingTransactionColumn(error) && rest.transaction_type === "venda") {
+    const { transaction_type: _transactionType, ...legacyRest } = rest;
+    void _transactionType;
+    const retry = await supabase
+      .from("properties")
+      .update({ ...legacyRest, features: featuresArray })
+      .eq("id", propertyId);
+    error = retry.error;
+  }
+
   if (error) {
     return {
-      error: error.code === "23505" ? "Já existe um imóvel com esse código." : "Erro ao salvar o imóvel.",
+      error: isMissingTransactionColumn(error)
+        ? "Atualize o banco de dados antes de marcar um imóvel para aluguel."
+        : error.code === "23505"
+          ? "Já existe um imóvel com esse código."
+          : "Erro ao salvar o imóvel.",
     };
   }
 

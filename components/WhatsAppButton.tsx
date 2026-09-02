@@ -1,16 +1,18 @@
 import type { Property } from "@/lib/types";
-import { getWhatsappHref } from "@/lib/whatsapp";
+import { getWhatsappHref, type WhatsappIntent } from "@/lib/whatsapp";
 
 export function WhatsAppButton({
   property,
+  intent,
   className,
   children,
 }: {
   property?: Property;
+  intent?: WhatsappIntent;
   className?: string;
   children: React.ReactNode;
 }) {
-  const href = getWhatsappHref(property);
+  const href = getWhatsappHref(property, intent);
 
   if (!href) {
     return (
@@ -21,7 +23,7 @@ export function WhatsAppButton({
   }
 
   return (
-    <a href={href} rel="noreferrer" className={className}>
+    <a href={href} target="_blank" rel="noreferrer" className={className}>
       {children}
     </a>
   );

@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const NAV_LINKS = [
-  { href: "/", label: "Início" },
-  { href: "/imoveis", label: "Imóveis" },
+  { href: "/imoveis?negocio=venda", label: "Comprar" },
+  { href: "/imoveis?negocio=aluguel", label: "Alugar" },
   { href: "/#contato", label: "Contato" },
 ];
 
@@ -44,22 +44,21 @@ export function Header() {
             className="rounded-full"
             priority
           />
-          <span className="font-display text-lg italic text-cream">
+          <span className="font-display text-lg font-semibold text-cream">
             MV Imóveis
           </span>
         </Link>
 
         <nav className="hidden items-center gap-9 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="focus-ring group relative text-sm font-medium tracking-wide text-cream-soft transition-colors hover:text-gold"
-            >
-              {link.label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
-            </Link>
-          ))}
+          <HeaderLink href={NAV_LINKS[0].href}>{NAV_LINKS[0].label}</HeaderLink>
+          <WhatsAppButton
+            intent="sell"
+            className="focus-ring group relative text-sm font-medium tracking-wide text-cream-soft transition-colors hover:text-gold"
+          >
+            Vender
+          </WhatsAppButton>
+          <HeaderLink href={NAV_LINKS[1].href}>{NAV_LINKS[1].label}</HeaderLink>
+          <HeaderLink href={NAV_LINKS[2].href}>{NAV_LINKS[2].label}</HeaderLink>
         </nav>
 
         <div className="hidden md:block">
@@ -86,21 +85,58 @@ export function Header() {
 
       {open && (
         <nav className="flex flex-col gap-1 border-t border-(--color-line) bg-black px-6 pb-6 pt-2 md:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="focus-ring rounded-md px-2 py-3 text-base text-cream-soft transition-colors hover:text-gold"
-            >
-              {link.label}
-            </Link>
-          ))}
+          <MobileLink href={NAV_LINKS[0].href} onClick={() => setOpen(false)}>
+            {NAV_LINKS[0].label}
+          </MobileLink>
+          <WhatsAppButton
+            intent="sell"
+            className="focus-ring rounded-md px-2 py-3 text-base text-cream-soft transition-colors hover:text-gold"
+          >
+            Vender
+          </WhatsAppButton>
+          <MobileLink href={NAV_LINKS[1].href} onClick={() => setOpen(false)}>
+            {NAV_LINKS[1].label}
+          </MobileLink>
+          <MobileLink href={NAV_LINKS[2].href} onClick={() => setOpen(false)}>
+            {NAV_LINKS[2].label}
+          </MobileLink>
           <WhatsAppButton className="focus-ring mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-gold px-5 py-3 text-sm font-semibold text-gold">
             Falar com a MV
           </WhatsAppButton>
         </nav>
       )}
     </motion.header>
+  );
+}
+
+function HeaderLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="focus-ring group relative text-sm font-medium tracking-wide text-cream-soft transition-colors hover:text-gold"
+    >
+      {children}
+      <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+    </Link>
+  );
+}
+
+function MobileLink({
+  href,
+  onClick,
+  children,
+}: {
+  href: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="focus-ring rounded-md px-2 py-3 text-base text-cream-soft transition-colors hover:text-gold"
+    >
+      {children}
+    </Link>
   );
 }

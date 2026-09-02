@@ -5,6 +5,7 @@ create extension if not exists "pgcrypto";
 
 create type public.property_type as enum ('apartamento','casa','terreno','comercial','outro');
 create type public.property_status as enum ('disponivel','vendido');
+create type public.property_transaction as enum ('venda','aluguel');
 
 create table public.cities (
   id uuid primary key default gen_random_uuid(),
@@ -28,6 +29,7 @@ create table public.properties (
   description text not null default '',
   type public.property_type not null,
   status public.property_status not null default 'disponivel',
+  transaction_type public.property_transaction not null default 'venda',
   city_id uuid not null references public.cities(id),
   neighborhood_id uuid not null references public.neighborhoods(id),
   address text,
@@ -121,4 +123,5 @@ create policy "property_photos_admin_delete" on storage.objects
 create index properties_city_id_idx on public.properties(city_id);
 create index properties_neighborhood_id_idx on public.properties(neighborhood_id);
 create index properties_status_idx on public.properties(status);
+create index properties_transaction_type_idx on public.properties(transaction_type);
 create index property_photos_property_id_idx on public.property_photos(property_id);

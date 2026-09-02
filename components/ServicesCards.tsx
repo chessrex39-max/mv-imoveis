@@ -24,7 +24,7 @@ const SERVICES = [
 
 export function ServicesCards() {
   return (
-    <section className="relative overflow-hidden bg-charcoal py-24">
+    <section className="relative overflow-hidden bg-surface-soft py-24">
       <div
         className="pointer-events-none absolute -left-24 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full opacity-30 blur-3xl"
         style={{ background: "var(--color-glow)" }}
@@ -33,7 +33,7 @@ export function ServicesCards() {
       <div className="container-page relative">
         <Reveal>
           <span className="eyebrow">Como podemos ajudar</span>
-          <h2 className="font-display mt-2 max-w-lg text-3xl text-cream sm:text-4xl">
+          <h2 className="font-display mt-2 max-w-lg text-3xl font-semibold text-ink sm:text-4xl">
             Um caminho claro para o seu próximo imóvel
           </h2>
         </Reveal>
@@ -44,14 +44,14 @@ export function ServicesCards() {
         >
           {SERVICES.map(({ icon: Icon, title, description }) => (
             <RevealItem key={title}>
-              <div className="glow-gold group h-full rounded-2xl border border-(--color-line) bg-black/40 p-8 transition-transform duration-500 hover:-translate-y-1.5">
+              <div className="group h-full rounded-2xl border border-line-light bg-white p-8 shadow-[0_12px_30px_rgba(29,26,22,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-[0_18px_38px_rgba(29,26,22,0.1)]">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 text-gold transition-colors duration-500 group-hover:bg-gold group-hover:text-black">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="font-display mt-6 text-2xl text-cream">
+                <h3 className="font-display mt-6 text-2xl font-semibold text-ink">
                   {title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-cream-soft">
+                <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                   {description}
                 </p>
               </div>

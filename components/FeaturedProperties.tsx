@@ -10,11 +10,12 @@ export function FeaturedProperties({
   properties: Property[];
 }) {
   return (
-    <section className="container-page py-24">
+    <section className="bg-surface py-24">
+      <div className="container-page">
       <Reveal className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
         <div>
           <span className="eyebrow">Seleção MV</span>
-          <h2 className="font-display mt-2 text-3xl text-cream sm:text-4xl">
+          <h2 className="font-display mt-2 text-3xl font-semibold text-ink sm:text-4xl">
             Imóveis em destaque
           </h2>
         </div>
@@ -44,6 +45,7 @@ export function FeaturedProperties({
           />
         </Reveal>
       )}
+      </div>
     </section>
   );
 }

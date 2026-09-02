@@ -16,7 +16,7 @@ export function PropertyGallery({
 
   if (photos.length === 0) {
     return (
-      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-(--color-line) bg-charcoal text-cream-soft/30">
+      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-line-light bg-white text-ink-soft/30">
         <BuildingPlaceholder className="h-16 w-16" />
       </div>
     );
@@ -30,7 +30,7 @@ export function PropertyGallery({
 
   return (
     <div>
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-(--color-line) bg-charcoal">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line-light bg-white shadow-[0_14px_35px_rgba(29,26,22,0.08)]">
         <Image
           src={current.url}
           alt={`${title} — foto ${index + 1} de ${photos.length}`}
@@ -77,7 +77,7 @@ export function PropertyGallery({
               className={`focus-ring relative h-16 w-20 shrink-0 overflow-hidden rounded-lg border transition-opacity ${
                 i === index
                   ? "border-gold opacity-100"
-                  : "border-(--color-line) opacity-60 hover:opacity-100"
+                  : "border-line-light opacity-60 hover:opacity-100"
               }`}
             >
               <Image src={photo.url} alt="" fill sizes="80px" className="object-cover" />
