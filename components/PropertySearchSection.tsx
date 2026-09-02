@@ -16,7 +16,7 @@ export function PropertySearchSection({ cities }: { cities: City[] }) {
         }}
       />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(239,210,142,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(239,210,142,0.035)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/45 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent via-black/55 to-black" />
 
       <div className="container-page relative z-10 py-16 sm:py-20">
         <Reveal>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { HomeIcon, BuildingIcon, KeyIcon, HandshakeIcon } from "@/components/icons";
@@ -16,22 +16,52 @@ const PILLARS = [
 
 export function Hero() {
   const [videoFailed, setVideoFailed] = useState(false);
+  const [videoActive, setVideoActive] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const video = videoRef.current;
+
+    if (!section || !video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVideoActive(true);
+          void video.play().catch(() => undefined);
+        } else {
+          setVideoActive(false);
+          video.pause();
+        }
+      },
+      { threshold: 0.4 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="relative flex min-h-[78svh] items-center overflow-hidden bg-black">
+    <section ref={sectionRef} className="relative flex min-h-[78svh] items-center overflow-hidden bg-black">
       <div className="absolute inset-0">
         {!videoFailed && (
           <motion.video
+            ref={videoRef}
             className="h-full w-full object-cover"
-            autoPlay
             muted
             loop
             playsInline
+            preload="metadata"
             poster="/images/hero-poster.jpg"
             onError={() => setVideoFailed(true)}
-            initial={{ scale: 1.12, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 2.2, ease: EASE_OUT }}
+            initial={{ scale: 1.06, opacity: 0 }}
+            animate={{
+              scale: videoActive ? 1 : 1.04,
+              opacity: videoActive ? 1 : 0,
+            }}
+            transition={{ duration: 1.4, ease: EASE_OUT }}
           >
             <source src="/videos/hero.mp4" type="video/mp4" />
           </motion.video>
@@ -41,6 +71,7 @@ export function Hero() {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/5" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black via-black/85 to-transparent" />
       </div>
 
       <div className="container-page relative z-10 py-24">

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 export function Footer() {
   return (
@@ -52,6 +53,9 @@ export function Footer() {
               </a>
             </li>
           </ul>
+          <WhatsAppButton className="focus-ring mt-5 inline-flex items-center justify-center rounded-full border border-gold px-5 py-2.5 text-sm font-semibold text-gold transition-all duration-300 hover:bg-gold hover:text-black">
+            Chamar no WhatsApp
+          </WhatsAppButton>
         </RevealItem>
 
         <RevealItem>
