@@ -1,0 +1,282 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/admin";
+import { makeUniqueSlug } from "@/lib/slug";
+
+export type ActionState = { error?: string; success?: boolean } | null;
+
+export async function signIn(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return { error: "O Supabase ainda não foi configurado neste projeto." };
+  }
+
+  const email = String(formData.get("email") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+
+  if (!email || !password) {
+    return { error: "Informe e-mail e senha." };
+  }
+
+  const supabase = await createClient();
+  const { error, data } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error || !data.user) {
+    return { error: "E-mail ou senha inválidos." };
+  }
+
+  const { data: admin } = await supabase
+    .from("admins")
+    .select("id")
+    .eq("id", data.user.id)
+    .maybeSingle();
+
+  if (!admin) {
+    await supabase.auth.signOut();
+    return { error: "Esta conta não tem acesso ao painel administrativo." };
+  }
+
+  redirect("/admin");
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/admin/login");
+}
+
+const propertySchema = z.object({
+  title: z.string().trim().min(3, "Informe um título com pelo menos 3 caracteres."),
+  code: z.string().trim().min(1, "Informe o código do imóvel."),
+  description: z.string().trim().default(""),
+  type: z.enum(["apartamento", "casa", "terreno", "comercial", "outro"]),
+  status: z.enum(["disponivel", "vendido"]),
+  city_id: z.string().uuid("Selecione uma cidade."),
+  neighborhood_id: z.string().uuid("Selecione um bairro."),
+  address: z.string().trim().optional(),
+  zip_code: z.string().trim().optional(),
+  area_m2: z.coerce.number().positive().optional(),
+  bedrooms: z.coerce.number().int().min(0).optional(),
+  bathrooms: z.coerce.number().int().min(0).optional(),
+  parking_spots: z.coerce.number().int().min(0).optional(),
+  features: z.string().trim().default(""),
+  is_featured: z.coerce.boolean().default(false),
+});
+
+function parsePropertyForm(formData: FormData) {
+  const raw = Object.fromEntries(formData.entries());
+  return propertySchema.safeParse({
+    ...raw,
+    is_featured: formData.get("is_featured") === "on",
+    area_m2: raw.area_m2 || undefined,
+    bedrooms: raw.bedrooms || undefined,
+    bathrooms: raw.bathrooms || undefined,
+    parking_spots: raw.parking_spots || undefined,
+    address: raw.address || undefined,
+    zip_code: raw.zip_code || undefined,
+  });
+}
+
+export async function createProperty(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const { supabase } = await requireAdmin();
+  const parsed = parsePropertyForm(formData);
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Dados inválidos." };
+  }
+
+  const { features, ...rest } = parsed.data;
+  const featuresArray = features
+    .split(",")
+    .map((f) => f.trim())
+    .filter(Boolean);
+
+  const slug = `${makeUniqueSlug(rest.title, rest.code)}-${Date.now().toString(36)}`;
+
+  const { data, error } = await supabase
+    .from("properties")
+    .insert({ ...rest, features: featuresArray, slug })
+    .select("id")
+    .single();
+
+  if (error) {
+    return {
+      error: error.code === "23505" ? "Já existe um imóvel com esse código." : "Erro ao salvar o imóvel.",
+    };
+  }
+
+  revalidatePath("/admin/imoveis");
+  revalidatePath("/imoveis");
+  redirect(`/admin/imoveis/${data.id}`);
+}
+
+export async function updateProperty(
+  propertyId: string,
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const { supabase } = await requireAdmin();
+  const parsed = parsePropertyForm(formData);
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Dados inválidos." };
+  }
+
+  const { features, ...rest } = parsed.data;
+  const featuresArray = features
+    .split(",")
+    .map((f) => f.trim())
+    .filter(Boolean);
+
+  const { error } = await supabase
+    .from("properties")
+    .update({ ...rest, features: featuresArray })
+    .eq("id", propertyId);
+
+  if (error) {
+    return {
+      error: error.code === "23505" ? "Já existe um imóvel com esse código." : "Erro ao salvar o imóvel.",
+    };
+  }
+
+  revalidatePath("/admin/imoveis");
+  revalidatePath(`/admin/imoveis/${propertyId}`);
+  revalidatePath("/imoveis");
+  return { success: true };
+}
+
+export async function setPropertyStatus(propertyId: string, status: "disponivel" | "vendido") {
+  const { supabase } = await requireAdmin();
+  await supabase.from("properties").update({ status }).eq("id", propertyId);
+  revalidatePath("/admin/imoveis");
+  revalidatePath("/imoveis");
+}
+
+export async function deleteProperty(propertyId: string) {
+  const { supabase } = await requireAdmin();
+  await supabase.from("properties").delete().eq("id", propertyId);
+  revalidatePath("/admin/imoveis");
+  revalidatePath("/imoveis");
+}
+
+export async function addPhotos(
+  propertyId: string,
+  photos: { url: string; storage_path: string }[]
+) {
+  const { supabase } = await requireAdmin();
+
+  const { count } = await supabase
+    .from("property_photos")
+    .select("id", { count: "exact", head: true })
+    .eq("property_id", propertyId);
+
+  const startPosition = count ?? 0;
+
+  const rows = photos.map((photo, i) => ({
+    property_id: propertyId,
+    url: photo.url,
+    storage_path: photo.storage_path,
+    position: startPosition + i,
+    is_cover: startPosition === 0 && i === 0,
+  }));
+
+  const { error } = await supabase.from("property_photos").insert(rows);
+  if (error) throw new Error("Erro ao salvar as fotos.");
+
+  revalidatePath(`/admin/imoveis/${propertyId}`);
+  revalidatePath("/imoveis");
+}
+
+export async function deletePhoto(propertyId: string, photoId: string, storagePath: string) {
+  const { supabase } = await requireAdmin();
+  await supabase.storage.from("property-photos").remove([storagePath]);
+  await supabase.from("property_photos").delete().eq("id", photoId);
+  revalidatePath(`/admin/imoveis/${propertyId}`);
+  revalidatePath("/imoveis");
+}
+
+export async function setCoverPhoto(propertyId: string, photoId: string) {
+  const { supabase } = await requireAdmin();
+  await supabase
+    .from("property_photos")
+    .update({ is_cover: false })
+    .eq("property_id", propertyId);
+  await supabase.from("property_photos").update({ is_cover: true }).eq("id", photoId);
+  revalidatePath(`/admin/imoveis/${propertyId}`);
+  revalidatePath("/imoveis");
+}
+
+export async function reorderPhoto(propertyId: string, photoId: string, direction: "up" | "down") {
+  const { supabase } = await requireAdmin();
+  const { data: photos } = await supabase
+    .from("property_photos")
+    .select("id, position")
+    .eq("property_id", propertyId)
+    .order("position", { ascending: true });
+
+  if (!photos) return;
+
+  const index = photos.findIndex((p) => p.id === photoId);
+  const swapWith = direction === "up" ? index - 1 : index + 1;
+  if (index === -1 || swapWith < 0 || swapWith >= photos.length) return;
+
+  const a = photos[index];
+  const b = photos[swapWith];
+
+  await supabase.from("property_photos").update({ position: b.position }).eq("id", a.id);
+  await supabase.from("property_photos").update({ position: a.position }).eq("id", b.id);
+
+  revalidatePath(`/admin/imoveis/${propertyId}`);
+}
+
+const citySchema = z.object({ name: z.string().trim().min(2, "Informe o nome da cidade.") });
+const neighborhoodSchema = z.object({
+  city_id: z.string().uuid("Selecione uma cidade."),
+  name: z.string().trim().min(2, "Informe o nome do bairro."),
+});
+
+export async function createCity(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const { supabase } = await requireAdmin();
+  const parsed = citySchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message };
+
+  const { error } = await supabase.from("cities").insert(parsed.data);
+  if (error) {
+    return { error: error.code === "23505" ? "Essa cidade já existe." : "Erro ao salvar." };
+  }
+
+  revalidatePath("/admin/cidades");
+  return { success: true };
+}
+
+export async function createNeighborhood(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const { supabase } = await requireAdmin();
+  const parsed = neighborhoodSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message };
+
+  const { error } = await supabase.from("neighborhoods").insert(parsed.data);
+  if (error) {
+    return { error: error.code === "23505" ? "Esse bairro já existe nessa cidade." : "Erro ao salvar." };
+  }
+
+  revalidatePath("/admin/cidades");
+  return { success: true };
+}

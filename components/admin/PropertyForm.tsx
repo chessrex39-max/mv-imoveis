@@ -1,0 +1,252 @@
+"use client";
+
+import { useActionState, useState } from "react";
+import type { City, Neighborhood, Property, PropertyType } from "@/lib/types";
+import { PROPERTY_TYPE_LABEL } from "@/lib/types";
+import type { ActionState } from "@/app/admin/actions";
+
+export function PropertyForm({
+  action,
+  cities,
+  neighborhoods,
+  property,
+  submitLabel,
+}: {
+  action: (state: ActionState, formData: FormData) => Promise<ActionState>;
+  cities: City[];
+  neighborhoods: Neighborhood[];
+  property?: Property;
+  submitLabel: string;
+}) {
+  const [state, formAction, pending] = useActionState<ActionState, FormData>(
+    action,
+    null
+  );
+  const [cityId, setCityId] = useState(property?.city_id ?? "");
+
+  const filteredNeighborhoods = cityId
+    ? neighborhoods.filter((n) => n.city_id === cityId)
+    : [];
+
+  return (
+    <form action={formAction} className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Field label="Título" htmlFor="title">
+          <input
+            id="title"
+            name="title"
+            required
+            defaultValue={property?.title}
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="Código" htmlFor="code">
+          <input
+            id="code"
+            name="code"
+            required
+            defaultValue={property?.code}
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="Tipo" htmlFor="type">
+          <select
+            id="type"
+            name="type"
+            required
+            defaultValue={property?.type ?? "apartamento"}
+            className={inputClass}
+          >
+            {Object.entries(PROPERTY_TYPE_LABEL).map(([value, label]) => (
+              <option key={value} value={value as PropertyType}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Status" htmlFor="status">
+          <select
+            id="status"
+            name="status"
+            required
+            defaultValue={property?.status ?? "disponivel"}
+            className={inputClass}
+          >
+            <option value="disponivel">Disponível</option>
+            <option value="vendido">Vendido</option>
+          </select>
+        </Field>
+
+        <Field label="Cidade" htmlFor="city_id">
+          <select
+            id="city_id"
+            name="city_id"
+            required
+            value={cityId}
+            onChange={(e) => setCityId(e.target.value)}
+            className={inputClass}
+          >
+            <option value="" disabled>
+              Selecione
+            </option>
+            {cities.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Bairro" htmlFor="neighborhood_id">
+          <select
+            id="neighborhood_id"
+            name="neighborhood_id"
+            required
+            defaultValue={property?.neighborhood_id}
+            disabled={!cityId}
+            className={inputClass}
+          >
+            <option value="" disabled>
+              {cityId ? "Selecione" : "Escolha a cidade primeiro"}
+            </option>
+            {filteredNeighborhoods.map((n) => (
+              <option key={n.id} value={n.id}>
+                {n.name}
+              </option>
+            ))}
+          </select>
+        </Field>
+
+        <Field label="Endereço (opcional)" htmlFor="address">
+          <input id="address" name="address" defaultValue={property?.address ?? ""} className={inputClass} />
+        </Field>
+
+        <Field label="CEP (opcional)" htmlFor="zip_code">
+          <input id="zip_code" name="zip_code" defaultValue={property?.zip_code ?? ""} className={inputClass} />
+        </Field>
+
+        <Field label="Área (m²)" htmlFor="area_m2">
+          <input
+            id="area_m2"
+            name="area_m2"
+            type="number"
+            step="0.01"
+            min="0"
+            defaultValue={property?.area_m2 ?? ""}
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="Quartos" htmlFor="bedrooms">
+          <input
+            id="bedrooms"
+            name="bedrooms"
+            type="number"
+            min="0"
+            defaultValue={property?.bedrooms ?? ""}
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="Banheiros" htmlFor="bathrooms">
+          <input
+            id="bathrooms"
+            name="bathrooms"
+            type="number"
+            min="0"
+            defaultValue={property?.bathrooms ?? ""}
+            className={inputClass}
+          />
+        </Field>
+
+        <Field label="Vagas" htmlFor="parking_spots">
+          <input
+            id="parking_spots"
+            name="parking_spots"
+            type="number"
+            min="0"
+            defaultValue={property?.parking_spots ?? ""}
+            className={inputClass}
+          />
+        </Field>
+      </div>
+
+      <Field label="Descrição" htmlFor="description">
+        <textarea
+          id="description"
+          name="description"
+          rows={5}
+          defaultValue={property?.description}
+          className={inputClass}
+        />
+      </Field>
+
+      <Field
+        label="Características e diferenciais (separados por vírgula)"
+        htmlFor="features"
+      >
+        <input
+          id="features"
+          name="features"
+          placeholder="Piscina, Varanda gourmet, Portaria 24h"
+          defaultValue={property?.features?.join(", ") ?? ""}
+          className={inputClass}
+        />
+      </Field>
+
+      <label className="flex items-center gap-2 text-sm text-cream-soft">
+        <input
+          type="checkbox"
+          name="is_featured"
+          defaultChecked={property?.is_featured}
+          className="focus-ring h-4 w-4 accent-(--color-gold)"
+        />
+        Exibir em destaque na página inicial
+      </label>
+
+      {state?.error && (
+        <p role="alert" className="text-sm text-red-400">
+          {state.error}
+        </p>
+      )}
+      {state?.success && (
+        <p role="status" className="text-sm text-emerald-400">
+          Alterações salvas.
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="focus-ring self-start rounded-lg bg-gold px-6 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+      >
+        {pending ? "Salvando…" : submitLabel}
+      </button>
+    </form>
+  );
+}
+
+const inputClass =
+  "focus-ring w-full rounded-lg border border-(--color-line) bg-black/40 px-3 py-2.5 text-sm text-cream disabled:opacity-40";
+
+function Field({
+  label,
+  htmlFor,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor={htmlFor} className="text-sm text-cream-soft">
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
