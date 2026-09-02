@@ -20,11 +20,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "MV Imóveis — Realizando sonhos, construindo histórias",
   description:
-    "MV Imóveis: 19 anos conectando você aos melhores imóveis em Jaboatão dos Guararapes e região. Compra, venda, aluguel e assessoria completa. CRECI 15063.",
+    "MV Imóveis: 19 anos conectando você aos melhores imóveis em Recife e região. Compra, venda, aluguel e assessoria completa. CRECI 15063.",
   keywords: [
     "MV Imóveis",
-    "imobiliária Jaboatão dos Guararapes",
+    "imobiliária Recife",
     "imóveis Piedade",
+    "imóveis Muro Alto",
     "comprar imóvel",
     "vender imóvel",
     "alugar imóvel",

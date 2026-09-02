@@ -38,3 +38,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# material bruto de imóveis (fotos e fichas com valores) — já migrado para o
+# Supabase Storage/DB; mantido só localmente, fora do controle de versão.
+/Beira-mar de Piedade*/
+/flat Malia Beach Experience*/

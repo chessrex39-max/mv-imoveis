@@ -4,7 +4,7 @@ const FACTS = [
   { value: "19 anos", label: "conectando pessoas aos seus sonhos" },
   { value: "CRECI 15063", label: "atuação regularizada e confiável" },
   { value: "Atendimento próximo", label: "do primeiro contato às chaves na mão" },
-  { value: "Jaboatão dos Guararapes", label: "raízes e conhecimento da região" },
+  { value: "Recife e região", label: "raízes e conhecimento da região" },
 ];
 
 export function InstitutionalSection() {
@@ -23,9 +23,9 @@ export function InstitutionalSection() {
               Há quase duas décadas ao lado de quem confia na MV
             </h2>
             <p className="mt-6 max-w-lg text-base leading-relaxed text-cream-soft">
-              A MV Imóveis conecta você aos melhores imóveis de Jaboatão dos
-              Guararapes e região, com o cuidado de quem trata cada negociação
-              como única. Compra, venda, aluguel ou assessoria completa: nosso
+              A MV Imóveis conecta você aos melhores imóveis de Recife e
+              região, com o cuidado de quem trata cada negociação como única.
+              Compra, venda, aluguel ou assessoria completa: nosso
               compromisso é tornar essa experiência memorável, do primeiro
               contato à entrega das chaves.
             </p>
@@ -37,7 +37,7 @@ export function InstitutionalSection() {
           >
             {FACTS.map((fact) => (
               <RevealItem key={fact.value}>
-                <div className="h-full bg-charcoal px-7 py-9 transition-colors duration-500 hover:bg-charcoal-soft">
+                <div className="glow-gold h-full bg-charcoal px-7 py-9 transition-colors duration-500 hover:bg-charcoal-soft">
                   <p className="font-display text-2xl text-gold">
                     {fact.value}
                   </p>

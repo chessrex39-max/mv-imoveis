@@ -33,7 +33,6 @@ export function Footer() {
           <ul className="mt-4 flex flex-col gap-2.5 text-sm text-cream-soft">
             <li><Link href="/" className="focus-ring hover:text-gold">Início</Link></li>
             <li><Link href="/imoveis" className="focus-ring hover:text-gold">Imóveis</Link></li>
-            <li><Link href="/#institucional" className="focus-ring hover:text-gold">A imobiliária</Link></li>
             <li><Link href="/#contato" className="focus-ring hover:text-gold">Contato</Link></li>
           </ul>
         </RevealItem>
@@ -41,7 +40,7 @@ export function Footer() {
         <RevealItem>
           <p className="eyebrow">Contato</p>
           <ul className="mt-4 flex flex-col gap-2.5 text-sm text-cream-soft">
-            <li>Jaboatão dos Guararapes — PE</li>
+            <li>Recife e região — PE</li>
             <li>
               <a
                 href="https://www.instagram.com/imoveis_mv/"

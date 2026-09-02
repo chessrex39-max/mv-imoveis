@@ -18,7 +18,7 @@ export function PropertyCard({ property }: { property: Property }) {
   return (
     <Link
       href={`/imoveis/${property.slug}`}
-      className="focus-ring group block overflow-hidden rounded-2xl border border-(--color-line) bg-charcoal transition-transform duration-500 hover:-translate-y-1"
+      className="focus-ring group block overflow-hidden rounded-2xl border border-(--color-line) bg-charcoal transition-all duration-500 hover:-translate-y-1 hover:border-gold/70 hover:shadow-[0_18px_40px_-16px_rgba(212,172,94,0.35)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-charcoal-soft">
         {cover ? (

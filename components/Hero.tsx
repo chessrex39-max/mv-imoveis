@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { SearchBar } from "@/components/SearchBar";
 import { HomeIcon, BuildingIcon, KeyIcon, HandshakeIcon } from "@/components/icons";
@@ -45,8 +46,23 @@ export function Hero({ cities }: { cities: City[] }) {
       </div>
 
       <div className="container-page relative z-10 py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.94 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, ease: EASE_OUT }}
+        >
+          <Image
+            src="/images/logo.jpeg"
+            alt="MV Imóveis"
+            width={68}
+            height={68}
+            priority
+            className="rounded-full drop-shadow-[0_4px_18px_rgba(0,0,0,0.5)]"
+          />
+        </motion.div>
+
         <motion.span
-          className="eyebrow"
+          className="eyebrow mt-5 inline-block"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
@@ -54,9 +70,9 @@ export function Hero({ cities }: { cities: City[] }) {
           MV Imóveis · CRECI 15063 · 19 anos de história
         </motion.span>
 
-        <div className="mt-5 max-w-3xl overflow-hidden py-[0.1em]">
+        <div className="mt-4 max-w-2xl overflow-hidden py-[0.1em]">
           <motion.h1
-            className="font-display text-[13vw] leading-[1.03] text-cream drop-shadow-[0_2px_24px_rgba(0,0,0,0.45)] sm:text-6xl md:text-7xl"
+            className="font-display text-[9vw] leading-[1.05] text-cream drop-shadow-[0_2px_24px_rgba(0,0,0,0.45)] sm:text-4xl md:text-5xl"
             initial={{ y: "115%" }}
             animate={{ y: "0%" }}
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.25 }}
@@ -73,9 +89,9 @@ export function Hero({ cities }: { cities: City[] }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55 }}
         >
-          Encontre o imóvel ideal para você em Jaboatão dos Guararapes e
-          região, com o acompanhamento próximo de quem conecta pessoas aos
-          melhores imóveis há quase duas décadas.
+          Encontre o imóvel ideal para você em Recife e região, com o
+          acompanhamento próximo de quem conecta pessoas aos melhores
+          imóveis há quase duas décadas.
         </motion.p>
 
         <motion.div

@@ -45,7 +45,7 @@ export function SearchBar({ cities }: { cities: City[] }) {
       </select>
       <button
         type="submit"
-        className="focus-ring rounded-xl bg-gold px-6 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90"
+        className="focus-ring rounded-xl bg-gold px-6 py-3 text-sm font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90"
       >
         Buscar imóveis
       </button>
