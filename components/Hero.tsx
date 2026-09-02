@@ -72,6 +72,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-black/5" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black via-black/85 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/85 to-transparent" />
       </div>
 
       <div className="container-page relative z-10 py-24">
