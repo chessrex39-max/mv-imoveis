@@ -3,9 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { SearchBar } from "@/components/SearchBar";
 import { HomeIcon, BuildingIcon, KeyIcon, HandshakeIcon } from "@/components/icons";
-import type { City } from "@/lib/types";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 
@@ -16,7 +14,7 @@ const PILLARS = [
   { label: "Assessoria completa", icon: HandshakeIcon },
 ];
 
-export function Hero({ cities }: { cities: City[] }) {
+export function Hero() {
   const [videoFailed, setVideoFailed] = useState(false);
 
   return (
@@ -121,14 +119,6 @@ export function Hero({ cities }: { cities: City[] }) {
           ))}
         </motion.div>
 
-        <motion.div
-          className="mt-10"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.1 }}
-        >
-          <SearchBar cities={cities} />
-        </motion.div>
       </div>
 
       <motion.div

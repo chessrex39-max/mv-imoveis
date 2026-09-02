@@ -1,4 +1,5 @@
 import { Hero } from "@/components/Hero";
+import { PropertySearchSection } from "@/components/PropertySearchSection";
 import { FeaturedProperties } from "@/components/FeaturedProperties";
 import { ServicesCards } from "@/components/ServicesCards";
 import { InstitutionalSection } from "@/components/InstitutionalSection";
@@ -13,7 +14,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero cities={cities} />
+      <PropertySearchSection cities={cities} />
+      <Hero />
       <FeaturedProperties properties={featured} />
       <ServicesCards />
       <InstitutionalSection />

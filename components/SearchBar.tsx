@@ -20,7 +20,7 @@ export function SearchBar({ cities }: { cities: City[] }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full max-w-2xl flex-col gap-3 rounded-2xl border border-(--color-line) bg-black/50 p-3 backdrop-blur-md sm:flex-row sm:items-center"
+      className="flex w-full max-w-4xl flex-col gap-3 rounded-2xl border border-(--color-line) bg-black/60 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-md sm:flex-row sm:items-center"
     >
       <input
         type="text"
