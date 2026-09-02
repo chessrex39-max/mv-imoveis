@@ -10,6 +10,7 @@ import {
   setCoverPhoto,
 } from "@/app/admin/actions";
 import type { PropertyPhoto } from "@/lib/types";
+import { button } from "@/components/admin/ui";
 
 const MAX_PHOTOS = 20;
 const MAX_SIZE_MB = 8;
@@ -83,10 +84,10 @@ export function PhotoManager({
   return (
     <div>
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-cream-soft">
+        <p className="text-sm text-admin-ink-soft">
           {photos.length} / {MAX_PHOTOS} fotos
         </p>
-        <label className="focus-ring cursor-pointer rounded-lg border border-gold px-4 py-2 text-sm font-semibold text-gold hover:bg-gold hover:text-black">
+        <label className={`${button.secondary} cursor-pointer`}>
           {uploading ? "Enviando…" : "Adicionar fotos"}
           <input
             ref={inputRef}
@@ -100,19 +101,23 @@ export function PhotoManager({
         </label>
       </div>
 
-      {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+      {error && (
+        <p className="mt-2 rounded-lg bg-admin-danger-soft px-3 py-2 text-sm text-admin-danger">
+          {error}
+        </p>
+      )}
 
       {photos.length > 0 && (
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {photos.map((photo, i) => (
             <div
               key={photo.id}
-              className="overflow-hidden rounded-xl border border-(--color-line) bg-charcoal"
+              className="overflow-hidden rounded-xl border border-admin-border bg-admin-surface-alt"
             >
               <div className="relative aspect-[4/3]">
                 <Image src={photo.url} alt="" fill sizes="200px" className="object-cover" />
                 {photo.is_cover && (
-                  <span className="absolute left-2 top-2 rounded-full bg-gold px-2 py-0.5 text-[10px] font-semibold text-black">
+                  <span className="absolute left-2 top-2 rounded-full bg-admin-accent px-2 py-0.5 text-[10px] font-semibold text-white">
                     Capa
                   </span>
                 )}
@@ -191,7 +196,7 @@ function IconButton({
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-xs text-cream-soft hover:bg-black/40 hover:text-cream disabled:opacity-30"
+      className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-xs text-admin-ink-soft hover:bg-admin-border hover:text-admin-ink disabled:opacity-30"
     >
       {children}
     </button>

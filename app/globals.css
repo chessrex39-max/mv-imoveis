@@ -17,6 +17,21 @@
   --color-line: rgba(239, 210, 142, 0.16);
   --color-glow: rgba(212, 172, 94, 0.22);
 
+  /* Paleta do painel administrativo — workspace claro e funcional,
+     separado da identidade de luxo do site público. */
+  --color-admin-bg: #f6f5f2;
+  --color-admin-surface: #ffffff;
+  --color-admin-surface-alt: #f0eee8;
+  --color-admin-border: #e4e1d8;
+  --color-admin-ink: #221e17;
+  --color-admin-ink-soft: #746f63;
+  --color-admin-accent: #9c6b2e;
+  --color-admin-accent-soft: #f5ead7;
+  --color-admin-danger: #b3261e;
+  --color-admin-danger-soft: #fbeae9;
+  --color-admin-success: #2f6b46;
+  --color-admin-success-soft: #e8f3ec;
+
   --breakpoint-xs: 22.5rem;
 }
 

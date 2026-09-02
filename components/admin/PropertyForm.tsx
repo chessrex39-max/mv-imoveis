@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import type { City, Neighborhood, Property, PropertyType } from "@/lib/types";
 import { PROPERTY_TYPE_LABEL } from "@/lib/types";
 import type { ActionState } from "@/app/admin/actions";
+import { button, input as inputClass, label as labelClass } from "@/components/admin/ui";
 
 export function PropertyForm({
   action,
@@ -197,40 +198,39 @@ export function PropertyForm({
         />
       </Field>
 
-      <label className="flex items-center gap-2 text-sm text-cream-soft">
+      <label className="flex items-center gap-2 text-sm text-admin-ink-soft">
         <input
           type="checkbox"
           name="is_featured"
           defaultChecked={property?.is_featured}
-          className="focus-ring h-4 w-4 accent-(--color-gold)"
+          className="focus-ring h-4 w-4 accent-(--color-admin-accent)"
         />
         Exibir em destaque na página inicial
       </label>
 
       {state?.error && (
-        <p role="alert" className="text-sm text-red-400">
+        <p
+          role="alert"
+          className="rounded-lg bg-admin-danger-soft px-3 py-2 text-sm text-admin-danger"
+        >
           {state.error}
         </p>
       )}
       {state?.success && (
-        <p role="status" className="text-sm text-emerald-400">
+        <p
+          role="status"
+          className="rounded-lg bg-admin-success-soft px-3 py-2 text-sm text-admin-success"
+        >
           Alterações salvas.
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="focus-ring self-start rounded-lg bg-gold px-6 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className={`${button.primary} self-start`}>
         {pending ? "Salvando…" : submitLabel}
       </button>
     </form>
   );
 }
-
-const inputClass =
-  "focus-ring w-full rounded-lg border border-(--color-line) bg-black/40 px-3 py-2.5 text-sm text-cream disabled:opacity-40";
 
 function Field({
   label,
@@ -243,7 +243,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={htmlFor} className="text-sm text-cream-soft">
+      <label htmlFor={htmlFor} className={labelClass}>
         {label}
       </label>
       {children}

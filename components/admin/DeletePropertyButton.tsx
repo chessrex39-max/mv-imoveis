@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { deleteProperty } from "@/app/admin/actions";
+import { button } from "@/components/admin/ui";
 
 export function DeletePropertyButton({
   propertyId,
@@ -25,7 +26,7 @@ export function DeletePropertyButton({
       type="button"
       onClick={handleClick}
       disabled={pending}
-      className="focus-ring text-xs font-medium text-red-400 hover:text-red-300 disabled:opacity-50"
+      className={button.danger}
     >
       {pending ? "Removendo…" : "Remover"}
     </button>

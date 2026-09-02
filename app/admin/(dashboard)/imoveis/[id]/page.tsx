@@ -3,6 +3,7 @@ import { getCities, getNeighborhoods, getPropertyById } from "@/lib/queries";
 import { updateProperty } from "@/app/admin/actions";
 import { PropertyForm } from "@/components/admin/PropertyForm";
 import { PhotoManager } from "@/components/admin/PhotoManager";
+import { card } from "@/components/admin/ui";
 
 export default async function EditarImovelPage({
   params,
@@ -20,10 +21,14 @@ export default async function EditarImovelPage({
 
   return (
     <div>
-      <h1 className="font-display text-2xl text-cream">{property.title}</h1>
-      <p className="mt-1 text-sm text-cream-soft">Código {property.code}</p>
+      <h1 className="text-2xl font-semibold text-admin-ink">
+        {property.title}
+      </h1>
+      <p className="mt-1 text-sm text-admin-ink-soft">
+        Código {property.code}
+      </p>
 
-      <div className="mt-8 max-w-2xl">
+      <div className={`mt-8 max-w-2xl p-6 sm:p-8 ${card}`}>
         <PropertyForm
           action={updateProperty.bind(null, property.id)}
           cities={cities}
@@ -33,9 +38,9 @@ export default async function EditarImovelPage({
         />
       </div>
 
-      <div className="mt-12 max-w-3xl border-t border-(--color-line) pt-8">
-        <h2 className="font-display text-xl text-cream">Fotos</h2>
-        <p className="mt-1 text-sm text-cream-soft">
+      <div className={`mt-8 max-w-3xl p-6 sm:p-8 ${card}`}>
+        <h2 className="text-lg font-semibold text-admin-ink">Fotos</h2>
+        <p className="mt-1 text-sm text-admin-ink-soft">
           A primeira foto marcada como capa aparece nos cards do site.
         </p>
         <div className="mt-5">

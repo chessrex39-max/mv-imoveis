@@ -3,6 +3,7 @@
 import { useActionState, useRef, useEffect } from "react";
 import { createNeighborhood, type ActionState } from "@/app/admin/actions";
 import type { City } from "@/lib/types";
+import { button, input } from "@/components/admin/ui";
 
 export function NeighborhoodForm({ cities }: { cities: City[] }) {
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
@@ -22,7 +23,7 @@ export function NeighborhoodForm({ cities }: { cities: City[] }) {
           name="city_id"
           required
           defaultValue=""
-          className="focus-ring rounded-lg border border-(--color-line) bg-black/40 px-3 py-2 text-sm text-cream-soft sm:w-48"
+          className={`${input} sm:w-48`}
         >
           <option value="" disabled>
             Cidade
@@ -33,21 +34,18 @@ export function NeighborhoodForm({ cities }: { cities: City[] }) {
             </option>
           ))}
         </select>
-        <input
-          name="name"
-          placeholder="Novo bairro"
-          required
-          className="focus-ring flex-1 rounded-lg border border-(--color-line) bg-black/40 px-3 py-2 text-sm text-cream"
-        />
+        <input name="name" placeholder="Novo bairro" required className={`${input} flex-1`} />
         <button
           type="submit"
           disabled={pending || cities.length === 0}
-          className="focus-ring shrink-0 rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-black disabled:opacity-50"
+          className={`${button.primary} shrink-0`}
         >
           Adicionar
         </button>
       </div>
-      {state?.error && <p className="mt-2 text-xs text-red-400">{state.error}</p>}
+      {state?.error && (
+        <p className="mt-2 text-xs text-admin-danger">{state.error}</p>
+      )}
     </form>
   );
 }
