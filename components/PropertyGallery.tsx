@@ -16,7 +16,7 @@ export function PropertyGallery({
 
   if (photos.length === 0) {
     return (
-      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-line-light bg-white text-ink-soft/30">
+      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-2xl border border-line-light bg-charcoal text-ink-soft/30">
         <BuildingPlaceholder className="h-16 w-16" />
       </div>
     );
@@ -30,7 +30,7 @@ export function PropertyGallery({
 
   return (
     <div>
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line-light bg-white shadow-[0_14px_35px_rgba(29,26,22,0.08)]">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line-light bg-charcoal shadow-[0_14px_35px_rgba(0,0,0,0.3)]">
         <Image
           src={current.url}
           alt={`${title} — foto ${index + 1} de ${photos.length}`}

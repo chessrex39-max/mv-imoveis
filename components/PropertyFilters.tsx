@@ -78,16 +78,16 @@ export function PropertyFilters({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Buscar por título ou código"
-          className="focus-ring w-full rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-soft/60"
+          className="focus-ring w-full rounded-xl border border-white/20 bg-black/55 px-4 py-3 text-sm text-cream placeholder:text-cream-soft/60"
         />
         <select
           value={cityId}
           onChange={(e) => updateParam("cidade", e.target.value)}
-          className="focus-ring rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink"
+          className="focus-ring rounded-xl border border-white/20 bg-black/55 px-4 py-3 text-sm text-cream"
         >
-          <option value="">Todas as cidades</option>
+          <option value="" className="bg-charcoal">Todas as cidades</option>
           {cities.map((c) => (
-            <option key={c.id} value={c.id}>
+            <option key={c.id} value={c.id} className="bg-charcoal">
               {c.name}
             </option>
           ))}
@@ -96,11 +96,11 @@ export function PropertyFilters({
         <select
           value={neighborhoodId}
           onChange={(e) => updateParam("bairro", e.target.value)}
-          className="focus-ring rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink"
+          className="focus-ring rounded-xl border border-white/20 bg-black/55 px-4 py-3 text-sm text-cream"
         >
-          <option value="">Todos os bairros</option>
+          <option value="" className="bg-charcoal">Todos os bairros</option>
           {filteredNeighborhoods.map((n) => (
-            <option key={n.id} value={n.id}>
+            <option key={n.id} value={n.id} className="bg-charcoal">
               {n.name}
             </option>
           ))}
@@ -109,11 +109,11 @@ export function PropertyFilters({
         <select
           value={type}
           onChange={(e) => updateParam("tipo", e.target.value)}
-          className="focus-ring rounded-xl border border-white/20 bg-white px-4 py-3 text-sm text-ink"
+          className="focus-ring rounded-xl border border-white/20 bg-black/55 px-4 py-3 text-sm text-cream"
         >
-          <option value="">Todos os tipos</option>
+          <option value="" className="bg-charcoal">Todos os tipos</option>
           {Object.entries(PROPERTY_TYPE_LABEL).map(([value, label]) => (
-            <option key={value} value={value}>
+            <option key={value} value={value} className="bg-charcoal">
               {label}
             </option>
           ))}

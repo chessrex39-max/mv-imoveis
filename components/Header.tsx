@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const NAV_LINKS = [
+  { href: "/", label: "Início" },
   { href: "/imoveis?negocio=venda", label: "Comprar" },
   { href: "/imoveis?negocio=aluguel", label: "Alugar" },
   { href: "/#contato", label: "Contato" },
@@ -49,19 +50,20 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-9 md:flex">
+        <nav className="hidden items-center gap-7 lg:flex xl:gap-9">
           <HeaderLink href={NAV_LINKS[0].href}>{NAV_LINKS[0].label}</HeaderLink>
+          <HeaderLink href={NAV_LINKS[1].href}>{NAV_LINKS[1].label}</HeaderLink>
           <WhatsAppButton
             intent="sell"
             className="focus-ring group relative text-sm font-medium tracking-wide text-cream-soft transition-colors hover:text-gold"
           >
             Vender
           </WhatsAppButton>
-          <HeaderLink href={NAV_LINKS[1].href}>{NAV_LINKS[1].label}</HeaderLink>
           <HeaderLink href={NAV_LINKS[2].href}>{NAV_LINKS[2].label}</HeaderLink>
+          <HeaderLink href={NAV_LINKS[3].href}>{NAV_LINKS[3].label}</HeaderLink>
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <WhatsAppButton className="focus-ring inline-flex items-center gap-2 rounded-full border border-gold px-5 py-2.5 text-sm font-semibold text-gold transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold hover:text-black">
             Falar com a MV
           </WhatsAppButton>
@@ -69,7 +71,7 @@ export function Header() {
 
         <button
           type="button"
-          className="focus-ring flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="focus-ring flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -84,9 +86,12 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-(--color-line) bg-black px-6 pb-6 pt-2 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-(--color-line) bg-black px-6 pb-6 pt-2 lg:hidden">
           <MobileLink href={NAV_LINKS[0].href} onClick={() => setOpen(false)}>
             {NAV_LINKS[0].label}
+          </MobileLink>
+          <MobileLink href={NAV_LINKS[1].href} onClick={() => setOpen(false)}>
+            {NAV_LINKS[1].label}
           </MobileLink>
           <WhatsAppButton
             intent="sell"
@@ -94,11 +99,11 @@ export function Header() {
           >
             Vender
           </WhatsAppButton>
-          <MobileLink href={NAV_LINKS[1].href} onClick={() => setOpen(false)}>
-            {NAV_LINKS[1].label}
-          </MobileLink>
           <MobileLink href={NAV_LINKS[2].href} onClick={() => setOpen(false)}>
             {NAV_LINKS[2].label}
+          </MobileLink>
+          <MobileLink href={NAV_LINKS[3].href} onClick={() => setOpen(false)}>
+            {NAV_LINKS[3].label}
           </MobileLink>
           <WhatsAppButton className="focus-ring mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-gold px-5 py-3 text-sm font-semibold text-gold">
             Falar com a MV

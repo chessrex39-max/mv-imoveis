@@ -44,7 +44,7 @@ export function ServicesCards() {
         >
           {SERVICES.map(({ icon: Icon, title, description }) => (
             <RevealItem key={title}>
-              <div className="group h-full rounded-2xl border border-line-light bg-white p-8 shadow-[0_12px_30px_rgba(29,26,22,0.06)] transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-[0_18px_38px_rgba(29,26,22,0.1)]">
+              <div className="glow-gold group h-full rounded-2xl border border-line-light bg-black/45 p-8 shadow-[0_12px_30px_rgba(0,0,0,0.2)] transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-[0_18px_38px_rgba(0,0,0,0.35)]">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 text-gold transition-colors duration-500 group-hover:bg-gold group-hover:text-black">
                   <Icon className="h-5 w-5" />
                 </div>

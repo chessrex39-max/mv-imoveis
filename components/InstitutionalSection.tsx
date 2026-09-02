@@ -9,7 +9,7 @@ const FACTS = [
 
 export function InstitutionalSection() {
   return (
-    <section id="institucional" className="relative overflow-hidden border-y border-line-light bg-white">
+    <section id="institucional" className="relative overflow-hidden border-y border-line-light bg-black">
       <div
         className="pointer-events-none absolute -right-32 top-0 h-[28rem] w-[28rem] rounded-full opacity-25 blur-3xl"
         style={{ background: "var(--color-glow)" }}
@@ -38,7 +38,7 @@ export function InstitutionalSection() {
             {FACTS.map((fact) => (
               <RevealItem key={fact.value}>
                 <div className="h-full bg-surface px-7 py-9 transition-colors duration-500 hover:bg-surface-soft">
-                  <p className="font-display text-2xl font-semibold text-gold-deep">
+                  <p className="font-display text-2xl font-semibold text-gold">
                     {fact.value}
                   </p>
                   <p className="mt-2 text-sm text-ink-soft">{fact.label}</p>

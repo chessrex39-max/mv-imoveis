@@ -16,11 +16,11 @@
   --color-gold-deep: #96762c;
   --color-line: rgba(239, 210, 142, 0.16);
   --color-glow: rgba(212, 172, 94, 0.22);
-  --color-surface: #fbfaf7;
-  --color-surface-soft: #f1eee8;
-  --color-ink: #1d1a16;
-  --color-ink-soft: #655f55;
-  --color-line-light: rgba(29, 26, 22, 0.12);
+  --color-surface: #110d08;
+  --color-surface-soft: #201a12;
+  --color-ink: #f8f3e6;
+  --color-ink-soft: #ddcfa9;
+  --color-line-light: rgba(239, 210, 142, 0.16);
 
   --breakpoint-xs: 22.5rem;
 }
@@ -35,8 +35,8 @@ html {
 
 html,
 body {
-  background: var(--color-surface);
-  color: var(--color-ink);
+  background: var(--color-black);
+  color: var(--color-cream);
   overflow-x: hidden;
 }
 

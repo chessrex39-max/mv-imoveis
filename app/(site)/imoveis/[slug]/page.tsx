@@ -74,7 +74,7 @@ export default async function PropertyPage({ params }: { params: Params }) {
                   if (value == null) return null;
                   return (
                     <div key={key}>
-                      <p className="font-display text-xl font-semibold text-gold-deep">
+                      <p className="font-display text-xl font-semibold text-gold">
                         {label(Number(value))}
                       </p>
                     </div>
@@ -115,7 +115,7 @@ export default async function PropertyPage({ params }: { params: Params }) {
         </Reveal>
 
         <Reveal as="div" delay={0.15} className="lg:sticky lg:top-28 lg:self-start">
-          <div className="rounded-2xl border border-line-light bg-white p-6 shadow-[0_14px_35px_rgba(29,26,22,0.08)]">
+          <div className="rounded-2xl border border-line-light bg-charcoal p-6 shadow-[0_14px_35px_rgba(0,0,0,0.3)]">
             <p className="font-display text-2xl font-semibold text-ink">
               {isSold ? "Este imóvel já foi vendido" : "Interessado neste imóvel?"}
             </p>

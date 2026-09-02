@@ -1,32 +1,24 @@
-import Image from "next/image";
 import { SearchBar } from "@/components/SearchBar";
 import type { City } from "@/lib/types";
 import { getWhatsappHref } from "@/lib/whatsapp";
 import { Reveal } from "@/components/Reveal";
 
-export function PropertySearchSection({
-  cities,
-  backgroundImage,
-}: {
-  cities: City[];
-  backgroundImage?: string;
-}) {
+export function PropertySearchSection({ cities }: { cities: City[] }) {
   const sellHref = getWhatsappHref(undefined, "sell");
 
   return (
-    <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-black pt-20">
-      <Image
-        src={backgroundImage ?? "/images/hero-poster.jpg"}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
+    <section className="relative flex min-h-[42rem] items-center overflow-hidden bg-black pt-20 sm:min-h-[44rem]">
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 18% 18%, rgba(212, 172, 94, 0.18), transparent 34%), radial-gradient(circle at 82% 82%, rgba(44, 36, 23, 0.9), transparent 42%), linear-gradient(135deg, #070503 0%, #110d08 50%, #201a12 100%)",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/78 via-black/42 to-black/15" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/20" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(239,210,142,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(239,210,142,0.035)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/45 to-transparent" />
 
-      <div className="container-page relative z-10 pb-14 pt-32 sm:pb-20">
+      <div className="container-page relative z-10 py-16 sm:py-20">
         <Reveal>
           <span className="eyebrow">MV Imóveis · CRECI 15063</span>
           <h1 className="font-display mt-4 max-w-3xl text-4xl font-semibold leading-[1.08] text-white drop-shadow-lg sm:text-5xl lg:text-6xl">

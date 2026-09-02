@@ -21,7 +21,7 @@ export function PropertyCard({ property }: { property: Property }) {
   ].filter(Boolean);
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line-light bg-white shadow-[0_12px_35px_rgba(29,26,22,0.08)] transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_20px_45px_rgba(29,26,22,0.14)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line-light bg-charcoal shadow-[0_12px_35px_rgba(0,0,0,0.2)] transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
       <Link
         href={`/imoveis/${property.slug}`}
         className="focus-ring block"
@@ -54,13 +54,13 @@ export function PropertyCard({ property }: { property: Property }) {
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="eyebrow !text-gold-deep">{PROPERTY_TYPE_LABEL[property.type]}</span>
+          <span className="eyebrow !text-gold">{PROPERTY_TYPE_LABEL[property.type]}</span>
           <span className="rounded-full bg-surface-soft px-2.5 py-1 text-[0.7rem] font-semibold text-ink-soft">
             {PROPERTY_TRANSACTION_LABEL[transactionType]}
           </span>
         </div>
         <Link href={`/imoveis/${property.slug}`} className="focus-ring mt-2 block">
-          <h3 className="font-display text-lg font-semibold text-ink transition-colors group-hover:text-gold-deep sm:text-xl">
+          <h3 className="font-display text-lg font-semibold text-ink transition-colors group-hover:text-gold sm:text-xl">
             {property.title}
           </h3>
         </Link>
