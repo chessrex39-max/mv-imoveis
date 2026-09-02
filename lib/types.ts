@@ -6,6 +6,7 @@ export type PropertyType =
   | "outro";
 
 export type PropertyStatus = "disponivel" | "vendido";
+export type PropertyTransaction = "venda" | "aluguel";
 
 export type City = {
   id: string;
@@ -35,6 +36,7 @@ export type Property = {
   description: string;
   type: PropertyType;
   status: PropertyStatus;
+  transaction_type?: PropertyTransaction;
   city_id: string;
   neighborhood_id: string;
   address: string | null;
@@ -58,4 +60,9 @@ export const PROPERTY_TYPE_LABEL: Record<PropertyType, string> = {
   terreno: "Terreno",
   comercial: "Comercial",
   outro: "Outro",
+};
+
+export const PROPERTY_TRANSACTION_LABEL: Record<PropertyTransaction, string> = {
+  venda: "À venda",
+  aluguel: "Para alugar",
 };

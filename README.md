@@ -22,6 +22,11 @@ configuração. Siga os passos abaixo para ativar tudo.
    tabelas, RLS e o bucket de fotos) e depois `supabase/seed.sql` (cria a
    cidade e o bairro já confirmados: Jaboatão dos Guararapes / Piedade).
 
+Se o projeto já existia antes da separação entre imóveis para venda e
+aluguel, rode também `supabase/migrations/20260902_add_property_transaction.sql`.
+Os imóveis que já estavam cadastrados serão mantidos e classificados como
+disponíveis para venda.
+
 ## 2. Variáveis de ambiente
 
 Copie `.env.example` para `.env.local` e preencha:

@@ -1,8 +1,17 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import type { City, Neighborhood, Property, PropertyType } from "@/lib/types";
-import { PROPERTY_TYPE_LABEL } from "@/lib/types";
+import type {
+  City,
+  Neighborhood,
+  Property,
+  PropertyTransaction,
+  PropertyType,
+} from "@/lib/types";
+import {
+  PROPERTY_TRANSACTION_LABEL,
+  PROPERTY_TYPE_LABEL,
+} from "@/lib/types";
 import type { ActionState } from "@/app/admin/actions";
 import { button, input as inputClass, label as labelClass } from "@/components/admin/ui";
 
@@ -78,6 +87,22 @@ export function PropertyForm({
           >
             <option value="disponivel">Disponível</option>
             <option value="vendido">Vendido</option>
+          </select>
+        </Field>
+
+        <Field label="Finalidade" htmlFor="transaction_type">
+          <select
+            id="transaction_type"
+            name="transaction_type"
+            required
+            defaultValue={property?.transaction_type ?? "venda"}
+            className={inputClass}
+          >
+            {Object.entries(PROPERTY_TRANSACTION_LABEL).map(([value, label]) => (
+              <option key={value} value={value as PropertyTransaction}>
+                {label}
+              </option>
+            ))}
           </select>
         </Field>
 

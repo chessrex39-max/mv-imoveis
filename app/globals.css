@@ -16,6 +16,11 @@
   --color-gold-deep: #96762c;
   --color-line: rgba(239, 210, 142, 0.16);
   --color-glow: rgba(212, 172, 94, 0.22);
+  --color-surface: #110d08;
+  --color-surface-soft: #201a12;
+  --color-ink: #f8f3e6;
+  --color-ink-soft: #ddcfa9;
+  --color-line-light: rgba(239, 210, 142, 0.16);
 
   /* Paleta do painel administrativo — workspace claro e funcional,
      separado da identidade de luxo do site público. */
@@ -72,7 +77,7 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-display), serif;
+  font-family: var(--font-display), sans-serif;
 }
 
 .eyebrow {
