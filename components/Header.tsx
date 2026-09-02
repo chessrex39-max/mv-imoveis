@@ -29,9 +29,9 @@ export function Header() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-gold/45 transition-colors duration-500 ${
         scrolled || open
-          ? "bg-black/90 backdrop-blur-md border-b border-(--color-line)"
+          ? "bg-black/90 backdrop-blur-md"
           : "bg-gradient-to-b from-black/70 to-transparent"
       }`}
     >

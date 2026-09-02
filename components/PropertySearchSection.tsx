@@ -22,10 +22,11 @@ export function PropertySearchSection({ cities }: { cities: City[] }) {
         <Reveal>
           <span className="eyebrow">MV Imóveis · CRECI 15063</span>
           <h1 className="font-display mt-4 max-w-3xl text-4xl font-semibold leading-[1.08] text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
-            O imóvel certo para o seu momento
+            Encontre um imóvel à altura dos seus planos
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
-            Encontre imóveis em Recife e região com atendimento próximo em cada etapa.
+            Uma seleção de oportunidades em Recife e região, com atendimento
+            próximo para você comprar ou alugar com segurança.
           </p>
         </Reveal>
 
