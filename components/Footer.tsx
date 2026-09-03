@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { InstagramIcon, MapPinIcon } from "@/components/icons";
 
 export function Footer() {
   return (
@@ -40,22 +41,26 @@ export function Footer() {
 
         <RevealItem>
           <p className="eyebrow">Contato</p>
-          <ul className="mt-4 flex flex-col gap-2.5 text-sm text-cream-soft">
-            <li>Recife e região — PE</li>
-            <li>
-              <a
-                href="https://www.instagram.com/imoveis_mv/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="focus-ring hover:text-gold"
-              >
-                @imoveis_mv
-              </a>
-            </li>
-          </ul>
-          <WhatsAppButton className="focus-ring mt-5 inline-flex items-center justify-center rounded-full border border-gold px-5 py-2.5 text-sm font-semibold text-gold transition-all duration-300 hover:bg-gold hover:text-black">
-            Chamar no WhatsApp
-          </WhatsAppButton>
+          <div className="mt-4 flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold">
+              <MapPinIcon className="h-4 w-4" />
+            </span>
+            <span className="text-sm text-cream-soft">Recife e região — PE</span>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <WhatsAppButton className="focus-ring inline-flex items-center gap-2 rounded-full border border-gold px-5 py-2.5 text-sm font-semibold text-gold transition-all duration-300 hover:bg-gold hover:text-black">
+              Chamar no WhatsApp
+            </WhatsAppButton>
+            <a
+              href="https://www.instagram.com/imoveis_mv/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-ring inline-flex items-center gap-2 rounded-full border border-(--color-line) px-5 py-2.5 text-sm font-semibold text-cream-soft transition-all duration-300 hover:border-gold hover:text-gold"
+            >
+              <InstagramIcon className="h-4 w-4" />
+              Instagram
+            </a>
+          </div>
         </RevealItem>
 
         <RevealItem>

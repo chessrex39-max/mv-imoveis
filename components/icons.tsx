@@ -45,3 +45,22 @@ export function ArrowUpRightIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function MapPinIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} {...props}>
+      <path d="M12 21s7-7.58 7-12A7 7 0 0 0 5 9c0 4.42 7 12 7 12Z" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
+  );
+}
+
+export function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} {...props}>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="17.1" cy="6.9" r="0.6" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
