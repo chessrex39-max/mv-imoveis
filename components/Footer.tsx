@@ -41,12 +41,25 @@ export function Footer() {
 
         <RevealItem>
           <p className="eyebrow">Contato</p>
-          <div className="mt-4 flex items-center gap-3">
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Avenida+Bernardo+Vieira+de+Melo%2C+1204+-+Loja+01%2C+Piedade%2C+Jaboat%C3%A3o+dos+Guararapes+-+PE"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus-ring group mt-4 flex items-start gap-3 rounded-2xl border border-(--color-line) bg-white/[0.03] p-4 transition-colors duration-300 hover:border-gold/50"
+          >
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold">
               <MapPinIcon className="h-4 w-4" />
             </span>
-            <span className="text-sm text-cream-soft">Recife e região — PE</span>
-          </div>
+            <span className="text-sm text-cream-soft">
+              <span className="block font-medium text-cream">Unidade Piedade</span>
+              Av. Bernardo Vieira de Melo, 1204 – Loja 01
+              <br />
+              Piedade, Jaboatão dos Guararapes – PE
+              <span className="mt-1.5 block text-xs text-gold/80 transition-colors group-hover:text-gold">
+                Ver no mapa →
+              </span>
+            </span>
+          </a>
           <div className="mt-5 flex flex-wrap gap-3">
             <WhatsAppButton className="focus-ring inline-flex items-center gap-2 rounded-full border border-gold px-5 py-2.5 text-sm font-semibold text-gold transition-all duration-300 hover:bg-gold hover:text-black">
               Chamar no WhatsApp
